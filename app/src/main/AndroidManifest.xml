@@ -30,7 +30,31 @@
             android:name=".Users_Add"
             android:exported="true" />
         <activity
+            android:name=".Diseases_Add"
+            android:exported="true" />
+        <activity
+            android:name=".User_Edit"
+            android:exported="true" />
+        <activity
+            android:name=".Prediction"
+            android:exported="true" />
+        <activity
             android:name=".Admin_Home"
+            android:exported="true" />
+        <activity
+            android:name=".Navigation"
+            android:exported="true" />
+        <activity
+            android:name=".Diseases_view"
+            android:exported="true" />
+        <activity
+            android:name=".Diseases_list"
+            android:exported="true" />
+        <activity
+            android:name=".User_Account"
+            android:exported="true" />
+        <activity
+            android:name=".Home"
             android:exported="true" />
         <activity
             android:name=".Register"

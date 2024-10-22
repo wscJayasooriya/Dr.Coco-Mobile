@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -60,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
         login_btn.setOnClickListener(view -> {
             String email = login_email.getText().toString().trim();
-            System.out.println();
             String password = login_password.getText().toString().trim();
 
 
@@ -115,7 +115,9 @@ public class MainActivity extends AppCompatActivity {
                     if ("admin".equals(role)) {
                         startActivity(new Intent(MainActivity.this, Admin_Home.class));
                     } else if ("user".equals(role)) {
-                        //not complete yet
+                        Intent homeIntent = new Intent(MainActivity.this, Home.class);
+                        homeIntent.putExtra("userRole", role); // Passing the role to the next activity
+                        startActivity(homeIntent);
                     } else {
                         Toast.makeText(MainActivity.this, "Invalid role!", Toast.LENGTH_SHORT).show();
                     }
