@@ -17,11 +17,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/home_btn" />
 
+
+
     <FrameLayout
         android:id="@+id/userFrame"
-        android:layout_width="275dp"
-        android:layout_height="275dp"
-        android:layout_marginTop="50dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="75dp"
         android:background="@drawable/border_style"
         android:padding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -106,29 +108,29 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="35dp"
-        android:layout_marginBottom="35dp"
-        app:menu_colorNormal="@color/green"
-        app:menu_colorPressed="@color/green"
+        android:layout_marginBottom="55dp"
+        app:menu_colorNormal="@color/greenPrimary"
+        app:menu_colorPressed="@color/greenPrimary"
         app:menu_fab_size="normal"
-        app:menu_icon="@drawable/baseline_format_list_bulleted"
+        app:menu_icon="@drawable/baseline_format_list_bulleted_24"
         app:menu_openDirection="up"
         app:menu_showShadow="true">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/editButton"
+            android:id="@+id/editUserButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_edit"
-            app:fab_colorNormal="@color/green"
+            android:src="@drawable/baseline_edit_24"
+            app:fab_colorNormal="@color/greenPrimary"
             app:fab_showShadow="true"
             app:fab_size="mini" />
         <com.github.clans.fab.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/deleteButton"
-            android:src="@drawable/baseline_delete"
+            android:src="@drawable/baseline_delete_24"
             app:fab_showShadow="true"
-            app:fab_colorNormal="@color/green"
+            app:fab_colorNormal="@color/redLight"
             app:fab_size="mini"/>
 
     </com.github.clans.fab.FloatingActionMenu>

@@ -53,35 +53,24 @@ public class Diseases_Add extends AppCompatActivity {
 
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK){
-                            Intent data = result.getData();
-                            uri = data.getData();
-                            diseaseImage.setImageURI(uri);
-                        } else {
-                            Toast.makeText(Diseases_Add.this, "No Image Selected", Toast.LENGTH_SHORT).show();
-                        }
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK){
+                        Intent data = result.getData();
+                        uri = data.getData();
+                        diseaseImage.setImageURI(uri);
+                    } else {
+                        Toast.makeText(Diseases_Add.this, "No Image Selected", Toast.LENGTH_SHORT).show();
                     }
                 }
         );
 
-        diseaseImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent photoPicker = new Intent(Intent.ACTION_PICK);
-                photoPicker.setType("image/*");
-                activityResultLauncher.launch(photoPicker);
-            }
+        diseaseImage.setOnClickListener(view -> {
+            Intent photoPicker = new Intent(Intent.ACTION_PICK);
+            photoPicker.setType("image/*");
+            activityResultLauncher.launch(photoPicker);
         });
 
-        add_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveData();
-            }
-        });
+        add_btn.setOnClickListener(view -> saveData());
     }
 
     public void saveData(){
@@ -93,23 +82,17 @@ public class Diseases_Add extends AppCompatActivity {
         builder.setView(R.layout.progress_layout);
         AlertDialog dialog = builder.create();
         dialog.show();
-        storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                while (!uriTask.isComplete());
-                Uri urlImage = uriTask.getResult();
-                imageUrl = urlImage.toString();
-                uploadData();
-                dialog.dismiss();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                dialog.dismiss();
-                Log.e("Firebase", "Failed to upload data: " + e.getMessage(), e);
-                Toast.makeText(Diseases_Add.this, "Failed to upload data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+        storageReference.putFile(uri).addOnSuccessListener(taskSnapshot -> {
+            Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+            while (!uriTask.isComplete());
+            Uri urlImage = uriTask.getResult();
+            imageUrl = urlImage.toString();
+            uploadData();
+            dialog.dismiss();
+        }).addOnFailureListener(e -> {
+            dialog.dismiss();
+            Log.e("Firebase", "Failed to upload data: " + e.getMessage(), e);
+            Toast.makeText(Diseases_Add.this, "Failed to upload data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -122,21 +105,13 @@ public class Diseases_Add extends AppCompatActivity {
         String currentDate = DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
 
         FirebaseDatabase.getInstance().getReference("Diseases").child(currentDate)
-                .setValue(dataClass).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(Diseases_Add.this, " Disaease Added Successfully", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(Diseases_Add.this, Diseases_list.class);
-                            startActivity(intent);
+                .setValue(dataClass).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        Toast.makeText(Diseases_Add.this, " Disaease Added Successfully", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(Diseases_Add.this, Diseases_list.class);
+                        startActivity(intent);
 
-                        }
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(Diseases_Add.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                }).addOnFailureListener(e -> Toast.makeText(Diseases_Add.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show());
     }
 }

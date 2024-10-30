@@ -1,12 +1,15 @@
 package com.sandun.coco;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.view.KeyEvent;
 import android.view.View;
@@ -28,9 +31,9 @@ import java.nio.ByteOrder;
 
 public class Prediction extends AppCompatActivity {
 
-    ImageView DiseaseView,hamburgerIcon,homeICon;
-    TextView result;
-    ImageButton upload_btn, camera_btn, getPrediction_btn;
+    ImageView DiseaseView,homeICon;
+    TextView result,textView4;
+    ImageButton upload_btn, camera_btn;
     int imageSize = 224;
 
     @Override
@@ -39,24 +42,19 @@ public class Prediction extends AppCompatActivity {
         setContentView(R.layout.activity_prediction);
 
         result = findViewById(R.id.result);
+        textView4 = findViewById(R.id.textView4);
         DiseaseView = findViewById(R.id.DiseaseView);
         camera_btn = findViewById(R.id.camera_btn);
         upload_btn = findViewById(R.id.upload_btn) ;
-        hamburgerIcon = findViewById(R.id.hamburgerIcon);
         homeICon = findViewById(R.id.homeICon);
+
+        result.setVisibility(View.GONE);
+        textView4.setVisibility(View.GONE);
 
         homeICon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Prediction.this, Home.class);
-                startActivity(intent);
-            }
-        });
-
-        hamburgerIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Prediction.this, Navigation.class);
                 startActivity(intent);
             }
         });
@@ -115,32 +113,6 @@ public class Prediction extends AppCompatActivity {
             Model.Outputs outputs = model.process(inputFeature0);
             TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
-//             float[] confidences = outputFeature0.getFloatArray();
-//             int maxPos = 0;
-//             float maxConfidence =0;
-//             for (int i=0; i < confidences.length; i++) {
-//                 if (confidences[i] > maxConfidence) {
-//                     maxConfidence = confidences[i];
-//                     maxPos = i;
-//                 }
-//             }
-//
-//             String[] classes = {"Anthurium Anthracnose", "Anthurium Anthracnose Healthy", "Anthurium Flower Black Nose", "Anthurium Flower Healthy", "Rose Botrytis Blight", "Rose Healthy"};
-//             result.setText(classes[maxPos]);
-//
-//             String s = "";
-//             for (int i=0; i < classes.length; i++){
-//                 s += String.format("%s: %.1f%%\n", classes[i], confidences[i] * 100);
-//             }
-//
-//             confidence.setText(s);
-//
-//            // Releases model resources if no longer used.
-//            model.close();
-//        } catch (IOException e) {
-//
-//        }
-
             float[] confidences = outputFeature0.getFloatArray();
             int maxPos = 0;
             float maxConfidence = 0;
@@ -159,7 +131,7 @@ public class Prediction extends AppCompatActivity {
                     "Yellowing",
             };
             result.setText(classes[maxPos]);
-
+            showPredictionResults();
             // Display only the class with the highest confidence
 //            String s = String.format("%s: %.1f%%", classes[maxPos], maxConfidence * 100);
 //            confidence.setText(s);
@@ -167,9 +139,29 @@ public class Prediction extends AppCompatActivity {
             // Releases model resources if no longer used.
             model.close();
 
-        } catch (IOException e) {
-            // TODO Handle the exception
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    private void showPredictionResults() {
+        textView4.setVisibility(View.VISIBLE);
+        result.setVisibility(View.VISIBLE);
+    }
+
+    public void classifyImageWithLoading(Bitmap image) {
+        // Show loading dialog
+        AlertDialog loadingDialog = new AlertDialog.Builder(this)
+                .setMessage("Processing...")
+                .setCancelable(false)
+                .create();
+        loadingDialog.show();
+
+        // Delay for 2 seconds, then classify image and hide the loading dialog
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            classifyImage(image);
+            loadingDialog.dismiss(); // Hide the loading dialog after classification
+        }, 2000); // 2 seconds delay
     }
 
 
@@ -183,7 +175,7 @@ public class Prediction extends AppCompatActivity {
             DiseaseView.setImageBitmap(image);
 
             image = Bitmap.createScaledBitmap(image, imageSize, imageSize, false);
-            classifyImage(image);
+            classifyImageWithLoading(image);
         }
         else if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
@@ -194,7 +186,7 @@ public class Prediction extends AppCompatActivity {
                 DiseaseView.setImageBitmap(image);
 
                 image = Bitmap.createScaledBitmap(image, imageSize, imageSize, false);
-                classifyImage(image);
+                classifyImageWithLoading(image);
             } catch (IOException e) {
                 e.printStackTrace();
             }

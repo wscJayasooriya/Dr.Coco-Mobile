@@ -89,13 +89,10 @@ public class Disease_Update extends AppCompatActivity {
             }
         });
 
-        updateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveData();
-                Intent intent = new Intent(Disease_Update.this, Diseases_list.class);
-                startActivity(intent);
-            }
+        updateButton.setOnClickListener(view -> {
+            saveData();
+            Intent intent = new Intent(Disease_Update.this, Diseases_list.class);
+            startActivity(intent);
         });
     }
 
@@ -120,12 +117,7 @@ public class Disease_Update extends AppCompatActivity {
                     updateData();
                     dialog.dismiss();
                 }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    dialog.dismiss();
-                }
-            });
+            }).addOnFailureListener(e -> dialog.dismiss());
 
         }else {
             imageUrl = oldImageURL; // use old image URL as no new image is selected
@@ -139,23 +131,15 @@ public class Disease_Update extends AppCompatActivity {
 
 
         DiseaseData dataClass = new DiseaseData(imageUrl, name, treat);
-        databaseReference.setValue(dataClass).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    if (!oldImageURL.equals(imageUrl)) {
-                        StorageReference reference = FirebaseStorage.getInstance().getReferenceFromUrl(oldImageURL);
-                        reference.delete();
-                    }
-                    Toast.makeText(Disease_Update.this, "Disease Updated", Toast.LENGTH_SHORT).show();
-                    finish();
+        databaseReference.setValue(dataClass).addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                if (!oldImageURL.equals(imageUrl)) {
+                    StorageReference reference = FirebaseStorage.getInstance().getReferenceFromUrl(oldImageURL);
+                    reference.delete();
                 }
+                Toast.makeText(Disease_Update.this, "Disease Updated", Toast.LENGTH_SHORT).show();
+                finish();
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(Disease_Update.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        }).addOnFailureListener(e -> Toast.makeText(Disease_Update.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show());
     }
 }

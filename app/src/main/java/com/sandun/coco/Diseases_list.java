@@ -34,7 +34,7 @@ public class Diseases_list extends AppCompatActivity {
     List<DiseaseData> dataList;
     DatabaseReference databaseReference;
     ValueEventListener eventListener;
-    ImageView hamburgerIcon, homeICon;
+    ImageView backIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +45,26 @@ public class Diseases_list extends AppCompatActivity {
         // Initialize UI components
         fab = findViewById(R.id.fab);
         recyclerView = findViewById(R.id.recycleView);
-        hamburgerIcon = findViewById(R.id.hamburgerIcon);
+        backIcon = findViewById(R.id.backIcon);
 
         // Retrieve user role from SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("user_role", MODE_PRIVATE);
         String role = sharedPreferences.getString("role", "");
 
-        // Check if the role is "user"
+        if (role.equals("admin")) {
+            backIcon.setOnClickListener(v -> {
+                Intent intent = new Intent(Diseases_list.this, Admin_Home.class);
+                startActivity(intent);
+            });
+        }else {
+            backIcon.setOnClickListener(v -> {
+                Intent intent = new Intent(Diseases_list.this, Home.class);
+                startActivity(intent);
+            });
+        }
+
+
         if (role.equals("user")) {
-            // Hide the FAB icon
             fab.setVisibility(View.GONE);
         }
 
@@ -114,20 +125,11 @@ public class Diseases_list extends AppCompatActivity {
 //            }
 //        });
 
-        hamburgerIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Diseases_list.this, Navigation.class);
-                startActivity(intent);
-            }
-        });
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Diseases_list.this, Diseases_Add.class);
-                startActivity(intent);
-            }
+
+        fab.setOnClickListener(v -> {
+            Intent intent = new Intent(Diseases_list.this, Diseases_Add.class);
+            startActivity(intent);
         });
     }
 

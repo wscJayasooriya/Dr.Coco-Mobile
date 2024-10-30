@@ -79,23 +79,20 @@ public class ForgotPassword extends AppCompatActivity {
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
         auth.sendPasswordResetEmail(email)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            // Inform the user that the password reset email was sent
-                            AlertUtil.showAlert(ForgotPassword.this,"Success", "Password reset link sent! Check your mailbox",SweetAlertDialog.SUCCESS_TYPE);
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    startActivity(new Intent(ForgotPassword.this, MainActivity.class));
-                                    finish();
-                                }
-                            }, 3000);
-                        } else {
-                            // Inform the user if sending the reset email failed
-                            AlertUtil.showAlert(ForgotPassword.this,"Error", "Failed to send reset email!", SweetAlertDialog.ERROR_TYPE);
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // Inform the user that the password reset email was sent
+                        AlertUtil.showAlert(ForgotPassword.this,"Success", "Password reset link sent! Check your mailbox",SweetAlertDialog.SUCCESS_TYPE);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                startActivity(new Intent(ForgotPassword.this, MainActivity.class));
+                                finish();
+                            }
+                        }, 3000);
+                    } else {
+                        // Inform the user if sending the reset email failed
+                        AlertUtil.showAlert(ForgotPassword.this,"Error", "Failed to send reset email!", SweetAlertDialog.ERROR_TYPE);
                     }
                 });
     }

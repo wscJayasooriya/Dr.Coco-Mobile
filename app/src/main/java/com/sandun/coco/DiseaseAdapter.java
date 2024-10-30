@@ -40,16 +40,13 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseViewHolder> {
         Glide.with(context).load(dataList.get(position).getDiseaseImage()).into(holder.recImage);
         holder.recTitle.setText(dataList.get(position).getDiseaseName()); // To view title on recycle view
 
-        holder.recCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, Diseases_view.class);
-                intent.putExtra("Image", dataList.get(holder.getAdapterPosition()).getDiseaseImage());
-                intent.putExtra("Name", dataList.get(holder.getAdapterPosition()).getDiseaseName());
-                intent.putExtra("Treatments", dataList.get(holder.getAdapterPosition()).getDiseaseTreatement());
-                intent.putExtra("Key",dataList.get(holder.getAdapterPosition()).getKey());
-                context.startActivity(intent);
-            }
+        holder.recCard.setOnClickListener(view -> {
+            Intent intent = new Intent(context, Diseases_view.class);
+            intent.putExtra("Image", dataList.get(holder.getAdapterPosition()).getDiseaseImage());
+            intent.putExtra("Name", dataList.get(holder.getAdapterPosition()).getDiseaseName());
+            intent.putExtra("Treatments", dataList.get(holder.getAdapterPosition()).getDiseaseTreatement());
+            intent.putExtra("Key",dataList.get(holder.getAdapterPosition()).getKey());
+            context.startActivity(intent);
         });
 
     }

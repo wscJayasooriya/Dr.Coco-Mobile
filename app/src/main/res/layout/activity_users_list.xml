@@ -42,13 +42,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/insidebg" />
+        app:srcCompat="@drawable/insidebg_lg" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/UserrecycleView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="30dp"
         android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@id/hamburgerIcon"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"

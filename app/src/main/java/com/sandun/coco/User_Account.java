@@ -34,7 +34,7 @@ public class User_Account extends AppCompatActivity {
     ImageButton delete_btn;
     FloatingActionButton editUserButton;
     FloatingActionMenu floating_action_menu;
-    ImageView hamburgerIcon,backIcon, userImage;
+    ImageView backIcon, userImage;
     String key = "";
     String imageUrl = "";
 
@@ -51,24 +51,25 @@ public class User_Account extends AppCompatActivity {
         delete_btn = findViewById(R.id.delete_btn);
 
         editUserButton = findViewById(R.id.editUserButton);
-
-//        hamburgerIcon = findViewById(R.id.hamburgerIcon);
         backIcon = findViewById(R.id.backIcon);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("user_role", MODE_PRIVATE);
+        String role = sharedPreferences.getString("role", "");
 
-        backIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if (role.equals("admin")) {
+            backIcon.setOnClickListener(v -> {
                 Intent intent = new Intent(User_Account.this, Users_list.class);
                 startActivity(intent);
-            }
-        });
+            });
+        } else {
+            backIcon.setOnClickListener(v -> {
+                Intent intent = new Intent(User_Account.this, Home.class);
+                startActivity(intent);
+            });
+        }
 
         floating_action_menu = findViewById(R.id.floating_action_menu);
 
-        // Retrieve user role from SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences("user_role", MODE_PRIVATE);
-        String role = sharedPreferences.getString("role", "");
 
         // Check if the role is admin
         if (role.equals("admin")) {
@@ -78,7 +79,7 @@ public class User_Account extends AppCompatActivity {
 
         if (role.equals("admin")) {
             Bundle bundle = getIntent().getExtras();
-            if (bundle != null){
+            if (bundle != null) {
                 userName.setText(bundle.getString("Name"));
                 phoneNumber.setText(bundle.getString("Phone"));
                 userEmail.setText(bundle.getString("Email"));
@@ -86,7 +87,7 @@ public class User_Account extends AppCompatActivity {
                 imageUrl = bundle.getString("Image");
                 Glide.with(this).load(bundle.getString("Image")).into(userImage);
             }
-        }else{
+        } else {
             // Get current logged in user
             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
             if (currentUser != null) {
@@ -172,7 +173,7 @@ public class User_Account extends AppCompatActivity {
                                     }
                                 }
                             });
-                        }else{
+                        } else {
                             // Delete the user's account from Firebase
                             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                             if (currentUser != null) {
@@ -228,7 +229,6 @@ public class User_Account extends AppCompatActivity {
         });
 
 
-
         editUserButton.setOnClickListener(new View.OnClickListener() {
 
             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -264,7 +264,6 @@ public class User_Account extends AppCompatActivity {
         }
         return super.onKeyUp(keyCode, event);
     }
-
 
 
 }

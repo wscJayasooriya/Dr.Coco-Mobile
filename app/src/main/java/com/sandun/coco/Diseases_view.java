@@ -43,12 +43,9 @@ public class Diseases_view extends AppCompatActivity {
         editButton = findViewById(R.id.editButton);
         backIcon = findViewById(R.id.backIcon);
 
-        backIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Diseases_view.this, Diseases_list.class);
-                startActivity(intent);
-            }
+        backIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(Diseases_view.this, Diseases_list.class);
+            startActivity(intent);
         });
 
         floating_action_menu = findViewById(R.id.floating_action_menu);

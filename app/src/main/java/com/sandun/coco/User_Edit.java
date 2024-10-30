@@ -62,32 +62,34 @@ public class User_Edit extends AppCompatActivity {
 
         backIcon = findViewById(R.id.backIcon);
 
-        backIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Create a confirmation dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(User_Edit.this);
-                builder.setTitle("Leave Page");
-                builder.setMessage("Are you sure you want to leave this page?");
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Redirect to Users_list activity
-                        startActivity(new Intent(User_Edit.this, User_Account.class));
-                        finish(); // Close current activity
-                    }
-                });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Dismiss the dialog and stay on the User_Account page
-                        dialog.dismiss();
-                    }
-                });
-                // Create and show the dialog
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
+//        backIcon.setOnClickListener(v -> {
+//            // Create a confirmation dialog
+//            AlertDialog.Builder builder = new AlertDialog.Builder(User_Edit.this);
+//            builder.setTitle("Leave Page");
+//            builder.setMessage("Are you sure you want to leave this page?");
+//            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    // Redirect to Users_list activity
+//                    startActivity(new Intent(User_Edit.this, User_Account.class));
+//                    finish(); // Close current activity
+//                }
+//            });
+//            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    // Dismiss the dialog and stay on the User_Account page
+//                    dialog.dismiss();
+//                }
+//            });
+//            // Create and show the dialog
+//            AlertDialog dialog = builder.create();
+//            dialog.show();
+//        });
+
+        backIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(User_Edit.this, User_Account.class);
+            startActivity(intent);
         });
 
 
