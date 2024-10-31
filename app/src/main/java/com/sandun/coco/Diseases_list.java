@@ -108,25 +108,6 @@ public class Diseases_list extends AppCompatActivity {
             }
         });
 
-        // Set up onClick listeners
-//        homeICon.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // Retrieve user role from SharedPreferences
-//                SharedPreferences sharedPreferences = getSharedPreferences("user_role", MODE_PRIVATE);
-//                String role = sharedPreferences.getString("role", "");
-//
-//                // Determine the activity to redirect based on the user's role
-//                Class<?> targetActivity = role.equals("admin") ? Admin_Home.class : Home.class;
-//
-//                // Start the corresponding activity
-//                startActivity(new Intent(Diseases_list.this, targetActivity));
-//                finish(); // Close the current activity
-//            }
-//        });
-
-
-
         fab.setOnClickListener(v -> {
             Intent intent = new Intent(Diseases_list.this, Diseases_Add.class);
             startActivity(intent);

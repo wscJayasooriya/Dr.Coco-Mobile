@@ -1,40 +1,36 @@
 package com.sandun.coco;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.ImageView;
 
-import com.sandun.coco.R;
-import com.sandun.coco.model.UserData;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sandun.coco.model.UserData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Users_list extends AppCompatActivity {
 
-    FloatingActionButton fab;
     RecyclerView UserRecycleView;
     List<UserData> userdataList;
     DatabaseReference databaseReference;
     ValueEventListener eventListener;
 
-    ImageView hamburgerIcon,homeICon;
-
-    UsersAdapter adapter;
+    ImageView backIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +38,7 @@ public class Users_list extends AppCompatActivity {
         setContentView(R.layout.activity_users_list);
 
         UserRecycleView = findViewById(R.id.UserrecycleView);
-        hamburgerIcon = findViewById(R.id.hamburgerIcon);
-        homeICon = findViewById(R.id.homeIcon);
+        backIcon = findViewById(R.id.backIcon);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(Users_list.this, 1);
         UserRecycleView.setLayoutManager(gridLayoutManager);
@@ -66,7 +61,7 @@ public class Users_list extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 userdataList.clear();
-                for (DataSnapshot itemSnapshot: snapshot.getChildren()){
+                for (DataSnapshot itemSnapshot : snapshot.getChildren()) {
                     UserData dataClass = itemSnapshot.getValue(UserData.class);
                     dataClass.setKey(itemSnapshot.getKey());
                     userdataList.add(dataClass);
@@ -74,6 +69,7 @@ public class Users_list extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
                 dialog.dismiss();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -81,29 +77,10 @@ public class Users_list extends AppCompatActivity {
             }
         });
 
-//        homeICon.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // Retrieve user role from SharedPreferences
-//                SharedPreferences sharedPreferences = getSharedPreferences("user_role", MODE_PRIVATE);
-//                String role = sharedPreferences.getString("role", "");
-//
-//                // Determine the activity to redirect based on the user's role
-//                Class<?> targetActivity = (role != null && role.equals("admin")) ? Admin_Home.class : Home.class;
-//
-//                // Start the corresponding activity
-//                startActivity(new Intent(Users_list.this, targetActivity));
-//                finish(); // Close the current activity
-//            }
-//        });
-
-//        hamburgerIcon.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(Users_list.this, Navigation.class);
-//                startActivity(intent);
-//            }
-//        });
+        backIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(Users_list.this, Admin_Home.class);
+            startActivity(intent);
+        });
 
 
     }

@@ -3,9 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sandun.coco.Admin_Home">
+    android:background="@drawable/bgwithoutname"
+    tools:context=".Diseases_list">
 
     <ImageView
         android:id="@+id/backIcon"
@@ -17,123 +19,48 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/home_btn" />
 
-
-
     <FrameLayout
-        android:id="@+id/userFrame"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="75dp"
-        android:background="@drawable/border_style"
-        android:padding="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/recyclerContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="40dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backIcon">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/backIcon"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
-            android:id="@+id/disease_image"
+            android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:background="@drawable/rounded_corners"
+            android:clipToOutline="true"
+            app:srcCompat="@drawable/insidebg_lg" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:scrollbars="vertical" />
+
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/textView7"
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/ketibah"
-        android:text="Disease Name"
-        android:textColor="@color/green"
-        android:textSize="25sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userFrame"  />
-
-    <TextView
-        android:id="@+id/disease_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
-        android:layout_marginEnd="55dp"
-        android:hint="Disease Name Here"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        android:fontFamily="@font/ketibah"
-        android:background="@drawable/border_style"
-        android:padding="10dp"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView7" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/ketibah"
-        android:text="Disease Treatment"
-        android:textColor="@color/green"
-        android:textSize="25sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/disease_name" />
-
-
-    <TextView
-        android:id="@+id/disease_treatments"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
-        android:layout_marginEnd="55dp"
-        android:hint="User's Contact No Here"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        android:fontFamily="@font/ketibah"
-        android:background="@drawable/border_style"
-        android:padding="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:inputType="textMultiLine"
-        android:minLines="2"
-        app:layout_constraintTop_toBottomOf="@id/textView9" />
-
-
-
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/floating_action_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/green"
+        android:src="@drawable/baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="35dp"
-        android:layout_marginBottom="55dp"
-        app:menu_colorNormal="@color/greenPrimary"
-        app:menu_colorPressed="@color/greenPrimary"
-        app:menu_fab_size="normal"
-        app:menu_icon="@drawable/baseline_format_list_bulleted_24"
-        app:menu_openDirection="up"
-        app:menu_showShadow="true">
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/editUserButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_edit_24"
-            app:fab_colorNormal="@color/greenPrimary"
-            app:fab_showShadow="true"
-            app:fab_size="mini" />
-        <com.github.clans.fab.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/deleteButton"
-            android:src="@drawable/baseline_delete_24"
-            app:fab_showShadow="true"
-            app:fab_colorNormal="@color/redLight"
-            app:fab_size="mini"/>
-
-    </com.github.clans.fab.FloatingActionMenu>
-
+        app:tint="@color/white"
+        android:importantForAccessibility="no" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
